@@ -1,12 +1,10 @@
-export interface GetQuestionnaireListResponse {
-  code: number;
-  data: Data;
-  msg: string;
-}
+import type { ApiResponse } from "../common";
 
-export interface Data {
-  survey_list: SurveyList[];
-  total_page_num: number;
+export type GetQuestionnaireListResponse = ApiResponse<GetQuestionnaireListData>;
+
+export interface GetQuestionnaireListData {
+  surveyList: SurveyList[];
+  totalPageNum: number;
 }
 
 export interface SurveyList {
@@ -17,13 +15,13 @@ export interface SurveyList {
   /** 1草稿、2发布、3已截止 */
   status: number;
   /** 问卷类型，0调研1投票 */
-  survey_type: number;
+  surveyType: number;
   /** 问卷标题 */
   title: string;
 }
 
-export interface GetQuestionnaireListResquest {
-  page_num: number,
-  page_size: number,
-  title?: string
+export interface GetQuestionnaireListRequest {
+  pageNum: number;
+  pageSize: number;
+  title?: string;
 }

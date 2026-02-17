@@ -26,7 +26,7 @@
               size="small"
               class="ml-3"
             >
-              {{ answersType.get(ans.question_type) }}
+              {{ answersType.get(ans.questionType) }}
             </el-tag>
           </th>
         </tr>
@@ -36,7 +36,7 @@
           <th>{{ index + 1 }}</th>
           <th>{{ t }}</th>
           <th v-for="ans in answers">
-            <div v-if="ans.question_type!==5">
+            <div v-if="ans.questionType!==5">
               <overflow-panel :text="ans.answers[index]" />
             </div>
             <div v-else>
@@ -129,19 +129,19 @@ const type = ref(QuesType.SURVEY);
 const getAnswers = () => {
   useRequest(() => getAnswersAPI({
     id: tempStore.checkId,
-    page_num: pageNum.value,
-    page_size: pageSize.value,
+    pageNum: pageNum.value,
+    pageSize: pageSize.value,
     text: props.keyText === "" ? undefined : props.keyText,
     unique: props.isUnique
   }), {
     debounceWait: 400,
     onSuccess(res) {
       if (res.code === 200) {
-        totalPageNum.value = res.data.total_page_num;
-        answers.value = res.data.answers_data.question_answers;
-        time.value = res.data.answers_data.time;
-        type.value = res.data.survey_type;
-        answerIds.value = res.data.answers_data.answerIds;
+        totalPageNum.value = res.data.totalPageNum;
+        answers.value = res.data.answersData.questionAnswers;
+        time.value = res.data.answersData.time;
+        type.value = res.data.surveyType;
+        answerIds.value = res.data.answersData.answerIds;
       }
     },
     onError(e) {
@@ -153,8 +153,8 @@ getAnswers();
 
 watch(props, getAnswers);
 
-const delAnswer = (answer_id: string) => {
-  useRequest(() => delAnswerAPI({ answer_id: answer_id }), {
+const delAnswer = (answerId: string) => {
+  useRequest(() => delAnswerAPI({ answerId: answerId }), {
     onBefore: () => startLoading(),
     onSuccess(res) {
       if (res.code === 200) {

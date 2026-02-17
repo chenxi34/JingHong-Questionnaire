@@ -4,7 +4,6 @@ import { getQuestionnaireDetailAPI } from "@/apis";
 import { closeLoading, startLoading } from "@/utilities";
 import { ElNotification } from "element-plus";
 import { defineStore } from "pinia";
-import { deepSnakeToCamel } from "@/utilities/deepSnakeToCamel.ts";
 import { dayjs } from "element-plus";
 import { QuesStatus, QuesType } from "@/utilities/constMap";
 
@@ -85,7 +84,7 @@ function useInitializeSchema(voteId: Ref<number>) {
     onBefore: startLoading,
     onSuccess(res: any) {
       res.code === 200
-        ? Object.assign(schema.value, deepSnakeToCamel(res.data))
+        ? Object.assign(schema.value, res.data)
         : ElNotification.error(res.msg);
     },
     onError(e) {

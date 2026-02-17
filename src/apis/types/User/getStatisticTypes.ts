@@ -1,34 +1,32 @@
+import type { ApiResponse } from "../common";
+
 export interface GetStatisticRequest {
   /** 问卷编号 */
   id: number;
 }
 
-export interface GetStatisticResponse {
-  code: number;
-  data: Data | null;
-  msg: string;
-}
+export type GetStatisticResponse = ApiResponse<GetStatisticData | null>;
 
-export interface Data {
+export interface GetStatisticData {
   statistics: Statistic[];
 }
 
 export interface Statistic {
-  options: Option[];
+  options: StatisticOption[];
   /** 题目标题 */
   question: string;
   /** 题目类型，1单选2多选 */
-  question_type: number;
+  questionType: number;
   /** 题目序号 */
-  serial_num: number;
+  serialNum: number;
 }
 
-export interface Option {
+export interface StatisticOption {
   /** 选项内容 */
   content: string;
   /** 选人数 */
   count: number;
   rank: number;
   /** 选项序号 */
-  serial_num: number;
+  serialNum: number;
 }

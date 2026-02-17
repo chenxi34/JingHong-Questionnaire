@@ -1,14 +1,10 @@
 import { request } from "@/apis/axios";
-import { saveImgResponse } from "../types/saveImgTypes";
+import type { SaveImgResponse } from "@/apis/types/saveImgTypes";
 
-const saveImgAPI = (data: FormData | null):
-Promise<saveImgResponse> => {
-  return request("/api/user/upload/img", {
-    data: data,
+export const saveImgAPI = (data: FormData | null): Promise<SaveImgResponse> => {
+  return request("/user/upload/img", {
+    data,
     method: "POST",
-    headers: {
-      "Content-Type": "multipart/form-data"
-    }
+    headers: { "Content-Type": "multipart/form-data" }
   });
 };
-export { saveImgAPI };

@@ -1,12 +1,6 @@
 import { request } from "@/apis/axios";
-import { GetQuestionnaireDetailRequest, getQuestionnaireDetailResponse } from "@/apis/types/DetaiInfo/getQuestionnaireDetailTypes";
+import type { GetQuestionnaireDetailRequest, GetQuestionnaireDetailResponse } from "@/apis/types/DetailInfo/getQuestionnaireDetailTypes";
 
-const getQuestionnaireDetailAPI = (data: GetQuestionnaireDetailRequest):
-Promise<getQuestionnaireDetailResponse> => {
-  return request("/api/admin/single/question", {
-    params: data,
-    method: "GET"
-  });
+export const getQuestionnaireDetailAPI = (params: GetQuestionnaireDetailRequest): Promise<GetQuestionnaireDetailResponse> => {
+  return request("/admin/single/question", { params, method: "GET" });
 };
-
-export { getQuestionnaireDetailAPI };

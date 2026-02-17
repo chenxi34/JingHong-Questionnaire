@@ -1,12 +1,6 @@
 import { request } from "@/apis/axios";
-import { SetUserSubmitRequest, SetUserSubmitResponse } from "@/apis/types/User/setUserSubmitType";
+import type { SetUserSubmitRequest, SetUserSubmitResponse } from "@/apis/types/User/setUserSubmitType";
 
-const setUserSubmitAPI = (data: SetUserSubmitRequest):
-Promise<SetUserSubmitResponse> => {
-  return request("/api/user/submit", {
-    method: "POST",
-    data: data
-  });
+export const setUserSubmitAPI = (data: SetUserSubmitRequest): Promise<SetUserSubmitResponse> => {
+  return request("/user/submit", { data, method: "POST" });
 };
-
-export { setUserSubmitAPI };

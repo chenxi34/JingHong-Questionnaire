@@ -1,12 +1,6 @@
 import { request } from "@/apis/axios";
-import { UpdateQuestionnaireStatusRequest, UpdateQuestionnaireStatusResponse } from "@/apis/types/Home/updateQuestionnaireStatusTypes";
+import type { UpdateQuestionnaireStatusRequest, UpdateQuestionnaireStatusResponse } from "@/apis/types/Home/updateQuestionnaireStatusTypes";
 
-const updateQuestionnaireStatusAPI = (data: UpdateQuestionnaireStatusRequest):
-Promise<UpdateQuestionnaireStatusResponse> => {
-  return request("/api/admin/update/status", {
-    data: data,
-    method: "PUT"
-  });
+export const updateQuestionnaireStatusAPI = (data: UpdateQuestionnaireStatusRequest): Promise<UpdateQuestionnaireStatusResponse> => {
+  return request("/admin/update/status", { data, method: "PUT" });
 };
-
-export { updateQuestionnaireStatusAPI };
