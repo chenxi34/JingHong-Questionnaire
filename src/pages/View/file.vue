@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="flex-col">
         <div class="flex items-center gap-20">
-          <span class="lg:text-xl md:text-md">{{ serial_num }}</span>
+          <span class="lg:text-xl md:text-md">{{ serialNum }}</span>
           <span class="lg:text-xl md:text-md flex gap-5 items-center">
             {{ title }}
             <el-tag type="primary" class="ml-5">图片</el-tag>
@@ -23,7 +23,7 @@
       <el-upload
         action="/api/user/upload/img"
         list-type="picture-card"
-        :auto-upload="true"
+        auto-upload
         :on-success="handleUploadSuccess"
         :on-remove="handleRemove"
         :file-list="fileList"
@@ -47,7 +47,7 @@
               <span
                 v-if="!disabled"
                 class="el-upload-list__item-delete"
-                @click="handleRemove(file as UploadFile)"
+                @click="handleRemove()"
               >
                 <el-icon><delete /></el-icon>
               </span>
@@ -83,7 +83,7 @@ const handlePictureCardPreview = (file: UploadFile) => {
   dialogVisible.value = true;
 };
 
-const handleRemove = (_file?: UploadFile) => {
+const handleRemove = () => {
   imageStore.clearFiles(); // 清空 Pinia 文件列表
   fileList.value = []; // 清空本地列表
 };
@@ -103,12 +103,12 @@ const handleUploadSuccess = (response: any, file: UploadFile) => {
 };
 
 const props = defineProps({
-  serial_num: Number,
-  title: String,
+  serialNum: { type: Number, default: 0 },
+  title: { type: String, default: "" },
   required: Boolean,
   unique: Boolean,
-  describe: String,
-  answer: String
+  describe: { type: String, default: "" },
+  answer: { type: String, default: "" }
 });
 
 const handleExceed = () => {
@@ -135,8 +135,4 @@ watch(localAnswer, (newAnswer) => {
 </script>
 
 <style scoped>
-</style>
-
-<style scoped>
-
 </style>

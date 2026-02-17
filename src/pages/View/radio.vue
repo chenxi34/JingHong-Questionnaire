@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="flex-col">
         <div class="flex items-center gap-20">
-          <span class="lg:text-xl md:text-md">{{ props.serial_num }}</span>
+          <span class="lg:text-xl md:text-md">{{ props.serialNum }}</span>
           <span class="lg:text-xl md:text-md flex gap-5 items-center">{{ props.title }} <el-tag type="primary" class="ml-5">单选</el-tag> <el-tag v-if="!required" type="warning">选答</el-tag> <el-tag v-if="localUnique" type="danger">唯一</el-tag></span>
         </div>
         <div class="flex items-center mt-15 ml-10">
@@ -17,7 +17,7 @@
       <div v-for="item in localOptions" :key="item.serial_num" class="flex items-center h-40 ">
         <el-radio
           v-model="localAnswer"
-          :name="String(props.serial_num)"
+          :name="String(props.serialNum)"
           :value="item.content"
           :label="item.content"
           style="zoom: 110% ; width: 100%"
@@ -37,7 +37,7 @@
         <input
           v-model="localAnswer"
           type="radio"
-          :name="String(props.serial_num)"
+          :name="String(props.serialNum)"
           class="my-5"
           style="zoom: 140%"
           :value="otherAnswer"
@@ -62,7 +62,7 @@ const optionStore = useMainStore().useOptionStore();
 
 const props = defineProps<{
   questionnaireID: string,
-  serial_num: number,
+  serialNum: number,
   title?: string,
   required: boolean,
   unique: boolean,
@@ -79,13 +79,13 @@ const props = defineProps<{
 const localUnique = ref<boolean>(props.unique);
 const localOtherOption = ref<boolean>(props.otherOption);
 const localOptions = ref(props.options ? [...props.options] : []);
-const otherAnswer = ref<string>(optionStore.search(props.questionnaireID, props.serial_num));
+const otherAnswer = ref<string>(optionStore.search(props.questionnaireID, props.serialNum));
 const emits = defineEmits(["update:answer"]);
 const localAnswer = ref(props.answer);
 
 watch([localAnswer, otherAnswer], ([newLocalAnswer, newOtherAnswer]) => {
   if (newOtherAnswer) {
-    optionStore.update(props.questionnaireID, props.serial_num, newOtherAnswer);
+    optionStore.update(props.questionnaireID, props.serialNum, newOtherAnswer);
   }
   if (localOtherOption.value && newLocalAnswer === newOtherAnswer) {
     emits("update:answer", newOtherAnswer);

@@ -1,7 +1,7 @@
 <template>
   <div class="rounded mx-5">
-    <span v-if="props.minimum_option !== 0" class="dark:opacity-80 text-gray-700 dark:text-gray-400 text-sm my-5">最少选 {{ props.minimum_option }} 个&ensp;</span>
-    <span v-if="props.maximum_option !== 0" class="dark:opacity-80 text-gray-700 dark:text-gray-400 text-sm my-5">最多选 {{ props.maximum_option }} 个</span>
+    <span v-if="props.minimumOption !== 0" class="dark:opacity-80 text-gray-700 dark:text-gray-400 text-sm my-5">最少选 {{ props.minimumOption }} 个&ensp;</span>
+    <span v-if="props.maximumOption !== 0" class="dark:opacity-80 text-gray-700 dark:text-gray-400 text-sm my-5">最多选 {{ props.maximumOption }} 个</span>
     <div class="grid grid-cols-2 py-10 h-auto ">
       <div v-for="(item, index) in localOptions" :key="item.serial_num" class="flex items-end justify-center my-10 mx-10">
         <div class="rounded ">
@@ -18,14 +18,14 @@
           </div>
           <label
             class="flex gap-4 items-center justify-center  border-red-300 dark:border-0 dark:bg-customGray_shallow border border-t-0 lg:w-230 md:w-210 sm:w-180 w-160 h-40 cursor-pointer"
-            :class="{ 'opacity-50 pointer-events-none': answerArr.length >= props.maximum_option && !answerArr.includes(item.content) }"
+            :class="{ 'opacity-50 pointer-events-none': answerArr.length >= props.maximumOption && !answerArr.includes(item.content) }"
             @click="handleCheckboxClick(item.content)"
           >
             <input
               v-model="answerArr"
               type="checkbox"
-            :name="String(props.serial_num)"
-            class="my-5 cursor-pointer ml-5"
+              :name="String(props.serialNum)"
+              class="my-5 cursor-pointer ml-5"
               style="zoom: 140%"
               :value="item.content"
             >
@@ -51,7 +51,7 @@ const optionStore = useMainStore().useOptionStore();
 
 const props = defineProps<{
   questionnaireID: string
-  serial_num: number,
+  serialNum: number,
   title?: string,
   required: boolean,
   unique: boolean,
@@ -59,8 +59,8 @@ const props = defineProps<{
   describe: string,
   answer: string,
   count: any
-  maximum_option: number,
-  minimum_option: number,
+  maximumOption: number,
+  minimumOption: number,
   options?: {
     content: string;
     img: string;
@@ -70,13 +70,13 @@ const props = defineProps<{
 
 const handleCheckboxClick = (content: string) => {
   const isChecked = answerArr.value.includes(content);
-  if (!isChecked && answerArr.value.length >= props.maximum_option) {
+  if (!isChecked && answerArr.value.length >= props.maximumOption) {
     return;
   }
 };
 
 const localOptions = ref(props.options ? [...props.options] : []);
-const otherAnswer = ref<string>(optionStore.search(props.questionnaireID, props.serial_num));
+const otherAnswer = ref<string>(optionStore.search(props.questionnaireID, props.serialNum));
 const answerArr = ref<string[]>(props.answer ? props.answer.split("┋") : []);
 // console.log(answerArr)
 const emits = defineEmits(["update:answer"]);
@@ -116,7 +116,7 @@ watch(filteredAnswerArr, () => {
 
 watch(otherAnswer, (newOtherAnswer, oldOtherAnswer) => {
   if (newOtherAnswer) {
-    optionStore.update(props.questionnaireID, props.serial_num, newOtherAnswer);
+    optionStore.update(props.questionnaireID, props.serialNum, newOtherAnswer);
   }
   if (newOtherAnswer !== oldOtherAnswer && otherCheckbox.value && otherCheckbox.value.checked) {
     const otherIndex = answerArr.value.indexOf(oldOtherAnswer);

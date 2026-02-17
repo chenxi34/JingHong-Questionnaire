@@ -76,8 +76,8 @@ const props = defineProps<{
   unique: boolean,
   otherOption: boolean,
   describe: string,
-  maximum_option: number,
-  minimum_option: number,
+  maximumOption: number,
+  minimumOption: number,
   options?: {
     content: string;
     img: string;
@@ -93,8 +93,8 @@ const emits = defineEmits([
   "update:title",
   "update:options",
   "update:describe",
-  "update:minimum_option",
-  "update:maximum_option"
+  "update:minimumOption",
+  "update:maximumOption"
 ]);
 
 // Local copies of props to maintain reactivity
@@ -104,8 +104,8 @@ const localUnique = ref<boolean>(props.unique);
 const localOtherOption = ref<boolean>(props.otherOption);
 const localDescribe = ref<string>(props.describe || "");
 const localOptions = ref(props.options);
-const localMax = ref(props.maximum_option);
-const localMin = ref(props.minimum_option);
+const localMax = ref(props.maximumOption);
+const localMin = ref(props.minimumOption);
 
 const handleFileChange = async (event: Event, serialNum: number) => {
   const input = event.target as HTMLInputElement;
@@ -190,11 +190,11 @@ watch(localDescribe, (newLocalDescribe) => {
   emits("update:describe", newLocalDescribe);
 });
 watch(localMin, (newMin) => {
-  emits("update:minimum_option", Number(newMin));
+  emits("update:minimumOption", Number(newMin));
 });
 
 watch(localMax, (newMax) => {
-  emits("update:maximum_option", Number(newMax));
+  emits("update:maximumOption", Number(newMax));
 });
 
 watch(localOtherOption, (newOtherOption) => {

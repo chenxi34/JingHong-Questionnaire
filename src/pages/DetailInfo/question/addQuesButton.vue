@@ -27,7 +27,6 @@ const props = defineProps<{
 
 const addQues = () => {
   addQuestion(questionLens.value, Number(props.type));
-  console.log(schema);
 };
 </script>
 

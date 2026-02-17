@@ -3,8 +3,8 @@ import { ref } from "vue";
 
 const useDarkModeStore = defineStore("darkmode", () => {
   const status = ref(false);
-  const setStatus = (temp_status: boolean) => {
-    status.value = temp_status;
+  const setStatus = (tempStatus: boolean) => {
+    status.value = tempStatus;
   };
   return {
     status,

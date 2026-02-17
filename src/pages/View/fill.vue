@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="flex-col">
         <div class="flex items-center gap-20">
-          <span class="lg:text-xl md:text-md">{{ serial_num }}</span>
+          <span class="lg:text-xl md:text-md">{{ serialNum }}</span>
           <span class="lg:text-xl md:text-md flex gap-5 items-center">
             {{ title }}
             <el-tag type="primary" class="ml-5">填空</el-tag>
@@ -36,13 +36,13 @@
 import { ref, watch, defineProps, defineEmits, computed } from "vue";
 
 const props = defineProps({
-  serial_num: Number,
-  title: String,
+  serialNum: { type: Number, default: 0 },
+  title: { type: String, default: "" },
   required: Boolean,
-  reg: String,
+  reg: { type: String, default: "" },
   unique: Boolean,
-  describe: String,
-  answer: String
+  describe: { type: String, default: "" },
+  answer: { type: String, default: "" }
 });
 
 const emits = defineEmits(["update:answer"]);
@@ -55,7 +55,6 @@ watch(localAnswer, (newAnswer) => {
 
 const validateInput = () => {
   if (props.reg && !new RegExp(props.reg).test(localAnswer.value as string)) {
-    console.log(props.reg);
     errorMessage.value = "输入不符合要求";
   } else {
     errorMessage.value = "";

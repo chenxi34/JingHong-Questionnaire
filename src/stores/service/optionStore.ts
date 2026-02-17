@@ -4,25 +4,25 @@ import { ref } from "vue";
 
 interface OptionItem {
   id: any;
-  serial_num: number;
+  serialNum: number;
   option: string;
 }
 
 const useOptionStore = defineStore("OptionStore", () => {
   const options = ref<OptionItem[]>([]);
-  const search = (id: any, serial_num: number) => {
-    const optionSearched = options.value.find(q => q.id === id && q.serial_num === serial_num);
+  const search = (id: any, serialNum: number) => {
+    const optionSearched = options.value.find(q => q.id === id && q.serialNum === serialNum);
     return optionSearched ? optionSearched.option : "";
   };
-  const update = (id: any, serial_num: number, option: string) => {
-    const tempOption = options.value.find(q => q.id === id && q.serial_num === serial_num);
+  const update = (id: any, serialNum: number, option: string) => {
+    const tempOption = options.value.find(q => q.id === id && q.serialNum === serialNum);
     if (tempOption) {
       tempOption.option = option;
     } else {
       options.value.push({
-        id: id,
-        serial_num: serial_num,
-        option: option
+        id,
+        serialNum,
+        option
       });
     }
   };

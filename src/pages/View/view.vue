@@ -85,7 +85,7 @@
                 v-model:answer="q.answer"
                 :title="q.subject"
                 :options="q.options"
-                :serial_num="q.serialNum"
+                :serial-num="q.serialNum"
                 :unique="q.quesSetting.unique"
                 :required="q.quesSetting.required"
                 :other-option="q.quesSetting.otherOption"
@@ -104,14 +104,14 @@
                   v-model:answer="q.answer"
                   :title="q.subject"
                   :options="q.options"
-                  :serial_num="q.serialNum"
+                  :serial-num="q.serialNum"
                   :unique="q.quesSetting.unique"
                   :required="q.quesSetting.required"
                   :other-option="q.quesSetting.otherOption"
                   :describe="q.description"
                   :questionnaire-i-d="decryptedId ?? ''"
-                  :minimum_option="q.quesSetting.minimumOption"
-                  :maximum_option="q.quesSetting.maximumOption"
+                  :minimum-option="q.quesSetting.minimumOption"
+                  :maximum-option="q.quesSetting.maximumOption"
                 />
               </template>
             </el-skeleton>
@@ -125,7 +125,7 @@
                 <fill
                   v-model:answer="q.answer"
                   :title="q.subject"
-                  :serial_num="q.serialNum"
+                  :serial-num="q.serialNum"
                   :reg="q.quesSetting.reg"
                   :unique="q.quesSetting.unique"
                   :required="q.quesSetting.required"
@@ -143,7 +143,7 @@
                 <text-area
                   v-model:answer="q.answer"
                   :title="q.subject"
-                  :serial_num="q.serialNum"
+                  :serial-num="q.serialNum"
                   :unique="q.quesSetting.unique"
                   :required="q.quesSetting.required"
                   :describe="q.description"
@@ -160,7 +160,7 @@
                 <file
                   v-model:answer="q.answer"
                   :title="q.subject"
-                  :serial_num="q.serialNum"
+                  :serial-num="q.serialNum"
                   :unique="q.quesSetting.unique"
                   :required="q.quesSetting.required"
                   :describe="q.description"
@@ -181,14 +181,14 @@
             v-model:answer="q.answer"
             :title="q.subject"
             :options="q.options"
-            :serial_num="q.serialNum"
+            :serial-num="q.serialNum"
             :unique="q.quesSetting.unique"
             :required="q.quesSetting.required"
             :other-option="q.quesSetting.otherOption"
             :describe="q.describe"
             :questionnaire-i-d="decryptedId ?? ''"
-            :minimum_option="q.quesSetting.minimumOption"
-            :maximum_option="q.quesSetting.maximumOption"
+            :minimum-option="q.quesSetting.minimumOption"
+            :maximum-option="q.quesSetting.maximumOption"
             :count="resultData"
           />
         </div>

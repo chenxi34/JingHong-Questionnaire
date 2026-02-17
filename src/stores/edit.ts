@@ -69,7 +69,6 @@ function useInitializeSchema(surveyId: Ref<number>) {
     onBefore: () => startLoading(),
     onSuccess(res) {
       if (res.code === 200 && res.data) {
-        console.log("valueChanged");
         schema.value = res.data as any;
       } else {
         ElNotification.error(res.msg);
@@ -172,7 +171,6 @@ export const useEditStore = defineStore("edit", () => {
     surveyId.value = id;
   }
   function init() {
-    console.log("Initializing...");
     if (surveyId.value === -1) {
       // resetSchema(); // 新建问卷时，重置 schema
     } else {

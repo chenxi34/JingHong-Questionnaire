@@ -44,8 +44,8 @@
                     v-model:option-choose="q.quesSetting.required"
                     v-model:other-option="q.quesSetting.otherOption"
                     v-model:describe="q.description"
-                    v-model:maximum_option="q.quesSetting.maximumOption"
-                    v-model:minimum_option="q.quesSetting.minimumOption"
+                    v-model:maximum-option="q.quesSetting.maximumOption"
+                    v-model:minimum-option="q.quesSetting.minimumOption"
                     :is-active="q.serialNum === activeSerial"
                     @on-click="deleteQuestion(q.serialNum)"
                   />

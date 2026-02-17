@@ -15,7 +15,6 @@ defineProps<{
 }>();
 
 const showModal = (e: MouseEvent) => {
-  console.log("debug:1");
   const et = (e.target as HTMLElement).nextElementSibling as HTMLElement;
   et.classList.add("dark:bg-black");
   et.style.display = "block";
