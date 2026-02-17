@@ -55,7 +55,6 @@ import CryptoJS from "crypto-js";
 import { computed } from "vue";
 import { useQrCode } from "@/utilities/useQrCode";
 import { useEditStore } from "@/stores/edit.ts";
-import { QuesType } from "@/utilities/constMap.ts";
 import { useEditVoteStore } from "@/stores/voteEdit.ts";
 import { QuesStatus, SurveyType } from "@/utilities/constantMap.ts";
 import { useClipboard } from "@vueuse/core";
@@ -123,7 +122,7 @@ const showQrCode = () => {
 const { qrCodeURL, copyQrCode } = useQrCode(questionnaireURL.value);
 
 const DetailInfo = () => {
-  if (props.surveyType === QuesType.SURVEY) {
+  if (props.surveyType === SurveyType.QUES) {
     setSurveyId(props.idName);
     init();
     router.push("/admin/DetailInfo");

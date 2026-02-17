@@ -17,7 +17,7 @@
       <div v-for="item in localOptions" :key="item.serial_num" class="flex items-center h-40 ">
         <el-radio
           v-model="localAnswer"
-          :name="props.serial_num"
+          :name="String(props.serial_num)"
           :value="item.content"
           :label="item.content"
           style="zoom: 110% ; width: 100%"
@@ -37,7 +37,7 @@
         <input
           v-model="localAnswer"
           type="radio"
-          :name="props.serial_num"
+          :name="String(props.serial_num)"
           class="my-5"
           style="zoom: 140%"
           :value="otherAnswer"

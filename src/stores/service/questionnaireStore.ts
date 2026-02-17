@@ -1,8 +1,14 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+interface UserAnswerItem {
+  id: any;
+  serial_num: number;
+  answer: any;
+}
+
 const useQuestionnaireStore = defineStore("questionnaires", () => {
-  const userAnswer = ref([]);
+  const userAnswer = ref<UserAnswerItem[]>([]);
   const searchAnswer = (id: any, serial_num: number) => {
     return userAnswer.value.find(question => question.id === id && question.serial_num === serial_num);
   };

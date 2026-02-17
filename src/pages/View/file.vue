@@ -83,7 +83,7 @@ const handlePictureCardPreview = (file: UploadFile) => {
   dialogVisible.value = true;
 };
 
-const handleRemove = () => {
+const handleRemove = (_file?: UploadFile) => {
   imageStore.clearFiles(); // 清空 Pinia 文件列表
   fileList.value = []; // 清空本地列表
 };
@@ -115,7 +115,7 @@ const handleExceed = () => {
   ElMessage.warning("最多只能上传一张图片！");
 };
 
-const beforeUpload = (file: UploadFile) => {
+const beforeUpload = (file: File) => {
   const isImage = file.type.startsWith("image/");
   if (!isImage) {
     ElMessage.error("上传的文件必须是图片!");

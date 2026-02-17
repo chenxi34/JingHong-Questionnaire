@@ -79,7 +79,7 @@ const downloadDataTable = () => {
     id: tempStore.checkId
   }), {
     onSuccess(res) {
-      if (res.code === 200) {
+      if (res.code === 200 && res.data) {
         window.location.href = res.data;
       }
     }

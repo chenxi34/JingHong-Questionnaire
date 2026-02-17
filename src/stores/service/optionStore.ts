@@ -2,11 +2,16 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+interface OptionItem {
+  id: any;
+  serial_num: number;
+  option: string;
+}
+
 const useOptionStore = defineStore("OptionStore", () => {
-  const options = ref([]);
+  const options = ref<OptionItem[]>([]);
   const search = (id: any, serial_num: number) => {
     const optionSearched = options.value.find(q => q.id === id && q.serial_num === serial_num);
-    console.log(optionSearched);
     return optionSearched ? optionSearched.option : "";
   };
   const update = (id: any, serial_num: number, option: string) => {

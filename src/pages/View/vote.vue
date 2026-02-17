@@ -24,8 +24,8 @@
             <input
               v-model="answerArr"
               type="checkbox"
-              :name="props.serial_num"
-              class="my-5 cursor-pointer ml-5"
+            :name="String(props.serial_num)"
+            class="my-5 cursor-pointer ml-5"
               style="zoom: 140%"
               :value="item.content"
             >
