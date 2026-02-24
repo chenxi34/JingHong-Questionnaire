@@ -82,10 +82,12 @@ function useInitializeSchema(voteId: Ref<number>) {
   const { run } = useRequest(() => getQuestionnaireDetailAPI({ id: voteId.value }), {
     manual: true,
     onBefore: startLoading,
-    onSuccess(res: any) {
-      res.code === 200
-        ? Object.assign(schema.value, res.data)
-        : ElNotification.error(res.msg);
+    onSuccess(res) {
+      if (res.code === 200 && res.data) {
+        Object.assign(schema.value, res.data);
+      } else {
+        ElNotification.error(res.msg);
+      }
     },
     onError(e) {
       ElNotification.error("获取失败，请重试" + e);

@@ -326,7 +326,7 @@ const publishQues = async () => {
       const data = { ...schema.value, id: surveyId.value };
 
       // 1. 更新内容
-      const contentRes = await setQuestionnaireDetailAPI(data) as any;
+      const contentRes = await setQuestionnaireDetailAPI(data);
       if (contentRes.code !== 200) {
         throw new Error(contentRes.msg || "保存内容失败");
       }

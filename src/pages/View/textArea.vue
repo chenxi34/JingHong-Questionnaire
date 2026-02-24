@@ -27,14 +27,14 @@
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits } from "vue";
 
-const props = defineProps({
-  serialNum: { type: Number, default: 0 },
-  title: { type: String, default: "" },
-  required: Boolean,
-  unique: Boolean,
-  describe: { type: String, default: "" },
-  answer: { type: String, default: "" }
-});
+const props = defineProps<{
+  serialNum: number
+  title: string
+  required: boolean
+  unique: boolean
+  describe?: string
+  answer?: string
+}>();
 
 const emits = defineEmits(["update:answer"]);
 

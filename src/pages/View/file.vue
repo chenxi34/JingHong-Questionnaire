@@ -65,7 +65,7 @@
 
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits } from "vue";
-import type { UploadFile } from "element-plus";
+import type { UploadFile, UploadRawFile } from "element-plus";
 import { ElMessage } from "element-plus";
 import { Delete, Plus, ZoomIn } from "@element-plus/icons-vue";
 import { useMainStore } from "@/stores";
@@ -102,20 +102,20 @@ const handleUploadSuccess = (response: any, file: UploadFile) => {
 
 };
 
-const props = defineProps({
-  serialNum: { type: Number, default: 0 },
-  title: { type: String, default: "" },
-  required: Boolean,
-  unique: Boolean,
-  describe: { type: String, default: "" },
-  answer: { type: String, default: "" }
-});
+const props = defineProps<{
+  serialNum: number
+  title: string
+  required: boolean
+  unique: boolean
+  describe?: string
+  answer?: string
+}>();
 
 const handleExceed = () => {
   ElMessage.warning("最多只能上传一张图片！");
 };
 
-const beforeUpload = (file: File) => {
+const beforeUpload = (file: UploadRawFile) => {
   const isImage = file.type.startsWith("image/");
   if (!isImage) {
     ElMessage.error("上传的文件必须是图片!");

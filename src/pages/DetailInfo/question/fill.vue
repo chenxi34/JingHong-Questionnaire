@@ -61,7 +61,7 @@ watch(() => props.describe, (newLocalDescribe) => {
 });
 
 watch(() => props.reg, (newReg) => {
-  customiseReg.value = newReg || "";
+  customiseReg.value = newReg ?? "";
 });
 
 watch(customiseReg, (newReg) => {

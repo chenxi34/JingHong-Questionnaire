@@ -393,7 +393,7 @@ const submit = () => {
         } else {
           try {
             const statRes = await getStatisticAPI({ id: Number(decryptedId.value) });
-            resultData.value = statRes.data?.statistics[0].options;
+            resultData.value = statRes.data?.statistics?.[0]?.options;
           } catch (e) {
             ElNotification.error(e instanceof Error ? e.message : String(e));
           }
@@ -457,7 +457,7 @@ const getQuestionnaireView = async () => {
         if (showData.value.surveyType === QuesType.VOTE) {
           try {
             const statRes = await getStatisticAPI({ id: Number(decryptedId.value) });
-            resultData.value = statRes.data?.statistics[0].options;
+            resultData.value = statRes.data?.statistics?.[0]?.options;
           } catch (e) {
             ElNotification.error(e instanceof Error ? e.message : String(e));
           }

@@ -69,7 +69,7 @@ function useInitializeSchema(surveyId: Ref<number>) {
     onBefore: () => startLoading(),
     onSuccess(res) {
       if (res.code === 200 && res.data) {
-        schema.value = res.data as any;
+        Object.assign(schema.value, res.data);
       } else {
         ElNotification.error(res.msg);
       }
