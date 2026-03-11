@@ -1,6 +1,3 @@
-export interface saveImgResponse {
-  code: number;
-  /** 图片url */
-  data: string | null;
-  msg: string;
-}
+import type { ApiResponse } from "./common";
+
+export type SaveImgResponse = ApiResponse<string | null>;

@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="flex-col">
         <div class="flex items-center gap-20">
-          <span class="lg:text-xl md:text-md">{{ serial_num }}</span>
+          <span class="lg:text-xl md:text-md">{{ serialNum }}</span>
           <span class="lg:text-xl md:text-md flex gap-5 items-center">
             {{ title }}
             <el-tag type="primary" class="ml-5">论述</el-tag>
@@ -27,14 +27,14 @@
 <script setup lang="ts">
 import { ref, watch, defineProps, defineEmits } from "vue";
 
-const props = defineProps({
-  serial_num: Number,
-  title: String,
-  required: Boolean,
-  unique: Boolean,
-  describe: String,
-  answer: String
-});
+const props = defineProps<{
+  serialNum: number
+  title: string
+  required: boolean
+  unique: boolean
+  describe?: string
+  answer?: string
+}>();
 
 const emits = defineEmits(["update:answer"]);
 

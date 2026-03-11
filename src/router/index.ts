@@ -51,7 +51,7 @@ const router = createRouter({
   ]
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const loginStore = useMainStore().useLoginStore();
   nextTick(() => {
     loginStore.setShowHeader(to.path.startsWith("/admin/"));

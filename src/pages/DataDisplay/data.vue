@@ -26,7 +26,7 @@
               size="small"
               class="ml-3"
             >
-              {{ answersType.get(ans.question_type) }}
+              {{ answersType.get(ans.questionType) }}
             </el-tag>
           </th>
         </tr>
@@ -36,7 +36,7 @@
           <th>{{ index + 1 }}</th>
           <th>{{ t }}</th>
           <th v-for="ans in answers">
-            <div v-if="ans.question_type!==5">
+            <div v-if="ans.questionType!==5">
               <overflow-panel :text="ans.answers[index]" />
             </div>
             <div v-else>
@@ -129,8 +129,8 @@ const type = ref(QuesType.SURVEY);
 const getAnswers = () => {
   useRequest(() => getAnswersAPI({
     id: tempStore.checkId,
-    page_num: pageNum.value,
-    page_size: pageSize.value,
+    pageNum: pageNum.value,
+    pageSize: pageSize.value,
     text: props.keyText === "" ? undefined : props.keyText,
     unique: props.isUnique
   }), {
@@ -153,8 +153,8 @@ getAnswers();
 
 watch(props, getAnswers);
 
-const delAnswer = (answer_id: string) => {
-  useRequest(() => delAnswerAPI({ answer_id: answer_id }), {
+const delAnswer = (answerId: string) => {
+  useRequest(() => delAnswerAPI({ answerId: answerId }), {
     onBefore: () => startLoading(),
     onSuccess(res) {
       if (res.code === 200) {
@@ -182,7 +182,6 @@ const closeImg = () => {
 };
 
 // TODO: add image copy
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const copyImgUrl = async () => {
   try {
     await navigator.clipboard.writeText(imgSrc.value);
@@ -192,11 +191,10 @@ const copyImgUrl = async () => {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const copyWholeImg = async () => {
   try {
-    const response = await fetch(imgSrc.value); // 连接图片url
-    const blob = await response.blob(); // 下载图片
+    const response = await fetch(imgSrc.value);
+    const blob = await response.blob();
     const tempItem = new ClipboardItem({ [blob.type]: blob });
     await navigator.clipboard.write([tempItem]);
     ElNotification.success("复制成功");
@@ -204,4 +202,8 @@ const copyWholeImg = async () => {
     ElNotification.error("复制失败");
   }
 };
+
+// Mark as intentionally kept for future use
+void copyImgUrl;
+void copyWholeImg;
 </script>

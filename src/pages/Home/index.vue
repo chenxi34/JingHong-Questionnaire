@@ -18,7 +18,7 @@
           :title="item.title"
           :id-name="item.id"
           :status="item.status"
-          :survey-type="item.survey_type"
+          :survey-type="item.surveyType"
           @update-status="statusConfirmModal"
           @del-ques="delConfirmModal"
           @show-qr-code="showQRcodeModal"
@@ -127,8 +127,8 @@ onMounted(() => {
 
 const getQuestionnaireList = (title?: string) => {
   useRequest(() => getQuestionnaireListAPI({
-    page_num: tempStore.homePageNum,
-    page_size: pageSize,
+    pageNum: tempStore.homePageNum,
+    pageSize: pageSize,
     title: title
   }), {
     onBefore: () => startLoading(),
@@ -136,8 +136,8 @@ const getQuestionnaireList = (title?: string) => {
       if (res.code !== 200) {
         throw new Error(res.msg);
       }
-      questionnaireList.value = res.data.survey_list;
-      totalPageNum.value = res.data.total_page_num;
+      questionnaireList.value = res.data.surveyList;
+      totalPageNum.value = res.data.totalPageNum;
       loading.value = false;
     },
     onFinally: () => closeLoading()

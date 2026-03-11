@@ -1,20 +1,26 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+interface UserAnswerItem {
+  id: any;
+  serialNum: number;
+  answer: any;
+}
+
 const useQuestionnaireStore = defineStore("questionnaires", () => {
-  const userAnswer = ref([]);
-  const searchAnswer = (id: any, serial_num: number) => {
-    return userAnswer.value.find(question => question.id === id && question.serial_num === serial_num);
+  const userAnswer = ref<UserAnswerItem[]>([]);
+  const searchAnswer = (id: any, serialNum: number) => {
+    return userAnswer.value.find(question => question.id === id && question.serialNum === serialNum);
   };
-  const updateAnswer = (id: any, serial_num: number, answer: any) => {
-    const question = userAnswer.value.find(question => question.id === id && question.serial_num === serial_num);
+  const updateAnswer = (id: any, serialNum: number, answer: any) => {
+    const question = userAnswer.value.find(q => q.id === id && q.serialNum === serialNum);
     if (question) {
       question.answer = answer;
     } else {
       userAnswer.value.push({
-        id: id,
-        serial_num: serial_num,
-        answer: answer
+        id,
+        serialNum,
+        answer
       });
     }
   };

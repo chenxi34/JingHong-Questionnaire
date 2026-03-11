@@ -7,7 +7,6 @@ import { defineStore } from "pinia";
 import { QuesItemType, QuesStatus, QuesType } from "@/utilities/constMap.ts";
 import { Question, Option } from "@/utilities/type.ts";
 import { quesSettingMap } from "@/utilities/quesSettingMap.ts";
-import { deepSnakeToCamel } from "@/utilities/deepSnakeToCamel.ts";
 import { dayjs } from "element-plus";
 import { cloneDeep } from "lodash-es";
 
@@ -69,9 +68,8 @@ function useInitializeSchema(surveyId: Ref<number>) {
     manual: true,
     onBefore: () => startLoading(),
     onSuccess(res) {
-      if (res.code === 200) {
-        console.log("valueChanged");
-        schema.value = deepSnakeToCamel(res.data);
+      if (res.code === 200 && res.data) {
+        Object.assign(schema.value, res.data);
       } else {
         ElNotification.error(res.msg);
       }
@@ -173,7 +171,6 @@ export const useEditStore = defineStore("edit", () => {
     surveyId.value = id;
   }
   function init() {
-    console.log("Initializing...");
     if (surveyId.value === -1) {
       // resetSchema(); // 新建问卷时，重置 schema
     } else {

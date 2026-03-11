@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="flex-col">
         <div class="flex items-center gap-20">
-          <span class="lg:text-xl md:text-md">{{ serial_num }}</span>
+          <span class="lg:text-xl md:text-md">{{ serialNum }}</span>
           <span class="lg:text-xl md:text-md flex gap-5 items-center">
             {{ title }}
             <el-tag type="primary" class="ml-5">图片</el-tag>
@@ -24,7 +24,7 @@
         :class="{ 'hide-upload-trigger': fileList.length >= 1 }"
         action="/api/user/upload/img"
         list-type="picture-card"
-        :auto-upload="true"
+        auto-upload
         :on-success="handleUploadSuccess"
         :on-error="handleUploadError"
         :file-list="fileList"
@@ -77,7 +77,7 @@ import { isEmpty } from "lodash-es";
 
 const props = defineProps<{
   questionnaireID: string;
-  serial_num: number;
+  serialNum: number;
   title: string;
   required: boolean;
   unique: boolean;
@@ -92,8 +92,8 @@ const dialogVisible = ref(false);
 const disabled = ref(false);
 const uploadErrorText = ref("");
 const fileList = computed({
-  get: () => imageStore.getFileList(props.questionnaireID, props.serial_num),
-  set: (newValue: UploadFile[]) => imageStore.setFileList(props.questionnaireID, props.serial_num, newValue)
+  get: () => imageStore.getFileList(props.questionnaireID, props.serialNum),
+  set: (newValue: UploadFile[]) => imageStore.setFileList(props.questionnaireID, props.serialNum, newValue)
 });
 
 const localAnswer = ref(props.answer);
@@ -184,7 +184,7 @@ watch(localAnswer, (newAnswer) => {
 
 </script>
 
-<style scoped>
+<style>
 :deep(.hide-upload-trigger .el-upload--picture-card) {
   display: none;
 }

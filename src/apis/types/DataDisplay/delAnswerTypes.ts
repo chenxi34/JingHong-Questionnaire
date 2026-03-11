@@ -1,9 +1,7 @@
-export interface DelAnswerResponse {
-  code: number;
-  data: null;
-  msg: string;
-}
+import type { ApiResponse } from "../common";
 
-export interface DelAnswerResquest {
-  answer_id: string
+export type DelAnswerResponse = ApiResponse<null>;
+
+export interface DelAnswerRequest {
+  answerId: string;
 }

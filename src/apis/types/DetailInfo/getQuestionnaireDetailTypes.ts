@@ -7,26 +7,26 @@ import type {
   QuestionnaireOption
 } from "../questionnaire";
 
-export interface GetQuestionnaireRequest {
-  /** 问卷编号 */
-  id: number | null;
+export interface GetQuestionnaireDetailRequest {
+  id: number;
 }
 
-export type GetQuestionnaireResponse = ApiResponse<GetQuestionnaireData | null>;
+export type GetQuestionnaireDetailResponse = ApiResponse<GetQuestionnaireDetailData | null>;
 
-export interface GetQuestionnaireData {
-  /** 用户端的 baseConfig.sumLimit 为 string 类型 */
-  baseConfig: Omit<QuestionnaireBaseConfig, "sumLimit"> & { sumLimit: string };
-  /** 问卷编号 */
-  id: number;
+export interface GetQuestionnaireDetailData {
+  baseConfig: QuestionnaireBaseConfig;
   quesConfig: QuestionnaireQuesConfig;
+  /** 1草稿、2发布、3已截止 */
   status: number;
   /** 问卷类型，0调研问卷，1投票问卷 */
   surveyType: number;
+  /** 问卷编号 */
+  uuid: string;
 }
 
 // Re-export shared types for backward compatibility
 export type {
+  QuestionnaireBaseConfig as BaseConfig,
   QuestionnaireQuesConfig as QuesConfig,
   QuestionnaireQuestion as QuestionList,
   QuestionnaireOption as Option,
