@@ -76,31 +76,13 @@
           </template>
         </el-skeleton>
       </div>
-      <div v-if="showData && showData.surveyType === 0" class="flex flex-col h-650 ">
-        <div v-for="q in showData.quesConfig.questionList" :key="q.serialNum">
-          <!-- 根据问题类型渲染组件 -->
-          <div v-if="q.quesSetting.questionType === 1">
-            <el-skeleton animated :loading="loading">
-              <radio
-                v-model:answer="q.answer"
-                :title="q.subject"
-                :options="q.options"
-                :serial-num="q.serialNum"
-                :unique="q.quesSetting.unique"
-                :required="q.quesSetting.required"
-                :other-option="q.quesSetting.otherOption"
-                :describe="q.description"
-                :questionnaire-i-d="decryptedId ?? ''"
-              />
-            </el-skeleton>
-          </div>
-          <div v-if="q.quesSetting.questionType === 2">
-            <el-skeleton animated :loading="loading">
-              <template #template>
-                <skeleton-card />
-              </template>
-              <template #default>
-                <checkbox
+      <template v-if="showData && decryptedId">
+        <div v-if="showData.surveyType === 0" class="flex flex-col h-650 ">
+          <div v-for="q in showData.quesConfig.questionList" :key="q.serial_num">
+            <!-- 根据问题类型渲染组件 -->
+            <div v-if="q.quesSetting.questionType === 1">
+              <el-skeleton animated :loading="loading">
+                <radio
                   v-model:answer="q.answer"
                   :title="q.subject"
                   :options="q.options"
@@ -109,95 +91,116 @@
                   :required="q.quesSetting.required"
                   :other-option="q.quesSetting.otherOption"
                   :describe="q.description"
-                  :questionnaire-i-d="decryptedId ?? ''"
-                  :minimum-option="q.quesSetting.minimumOption"
-                  :maximum-option="q.quesSetting.maximumOption"
+                  :questionnaire-i-d="decryptedId"
                 />
-              </template>
-            </el-skeleton>
+              </el-skeleton>
+            </div>
+            <div v-if="q.quesSetting.questionType === 2">
+              <el-skeleton animated :loading="loading">
+                <template #template>
+                  <skeleton-card />
+                </template>
+                <template #default>
+                  <checkbox
+                    v-model:answer="q.answer"
+                    :title="q.subject"
+                    :options="q.options"
+                    :serial-num="q.serialNum"
+                    :unique="q.quesSetting.unique"
+                    :required="q.quesSetting.required"
+                    :other-option="q.quesSetting.otherOption"
+                    :describe="q.description"
+                    :questionnaire-i-d="decryptedId ?? ''"
+                    :minimum-option="q.quesSetting.minimumOption"
+                    :maximum-option="q.quesSetting.maximumOption"
+                  />
+                </template>
+              </el-skeleton>
+            </div>
+            <div v-if="q.quesSetting.questionType === 3">
+              <el-skeleton animated :loading="loading">
+                <template #template>
+                  <skeleton-card />
+                </template>
+                <template #default>
+                  <fill
+                    v-model:answer="q.answer"
+                    :title="q.subject"
+                    :serial-num="q.serialNum"
+                    :reg="q.quesSetting.reg"
+                    :unique="q.quesSetting.unique"
+                    :required="q.quesSetting.required"
+                    :describe="q.description"
+                  />
+                </template>
+              </el-skeleton>
+            </div>
+            <div v-if="q.quesSetting.questionType === 4">
+              <el-skeleton :loading="loading">
+                <template #template>
+                  <skeleton-card />
+                </template>
+                <template #default>
+                  <text-area
+                    v-model:answer="q.answer"
+                    :title="q.subject"
+                    :serial-num="q.serialNum"
+                    :unique="q.quesSetting.unique"
+                    :required="q.quesSetting.required"
+                    :describe="q.description"
+                  />
+                </template>
+              </el-skeleton>
+            </div>
+            <div v-if="q.quesSetting.questionType === 5">
+              <el-skeleton animated :loading="loading">
+                <template #template>
+                  <skeleton-card />
+                </template>
+                <template #default>
+                  <file
+                    v-model:answer="q.answer"
+                    :title="q.subject"
+                    :serial-num="q.serialNum"
+                    :unique="q.quesSetting.unique"
+                    :required="q.quesSetting.required"
+                    :describe="q.description"
+                    :questionnaire-i-d="decryptedId"
+                  />
+                </template>
+              </el-skeleton>
+            </div>
           </div>
-          <div v-if="q.quesSetting.questionType === 3">
-            <el-skeleton animated :loading="loading">
-              <template #template>
-                <skeleton-card />
-              </template>
-              <template #default>
-                <fill
-                  v-model:answer="q.answer"
-                  :title="q.subject"
-                  :serial-num="q.serialNum"
-                  :reg="q.quesSetting.reg"
-                  :unique="q.quesSetting.unique"
-                  :required="q.quesSetting.required"
-                  :describe="q.description"
-                />
-              </template>
-            </el-skeleton>
-          </div>
-          <div v-if="q.quesSetting.questionType === 4">
-            <el-skeleton :loading="loading">
-              <template #template>
-                <skeleton-card />
-              </template>
-              <template #default>
-                <text-area
-                  v-model:answer="q.answer"
-                  :title="q.subject"
-                  :serial-num="q.serialNum"
-                  :unique="q.quesSetting.unique"
-                  :required="q.quesSetting.required"
-                  :describe="q.description"
-                />
-              </template>
-            </el-skeleton>
-          </div>
-          <div v-if="q.quesSetting.questionType === 5">
-            <el-skeleton animated :loading="loading">
-              <template #template>
-                <skeleton-card />
-              </template>
-              <template #default>
-                <file
-                  v-model:answer="q.answer"
-                  :title="q.subject"
-                  :serial-num="q.serialNum"
-                  :unique="q.quesSetting.unique"
-                  :required="q.quesSetting.required"
-                  :describe="q.description"
-                />
-              </template>
-            </el-skeleton>
+          <div class="flex justify-center items-center py-50">
+            <button v-if="decryptedId && !isOutDate" class="btn  w-1/3 bg-red-800 text-red-50 dark:opacity-75 hover:bg-red-600" @click="handleSubmit">
+              提交问卷
+            </button>
           </div>
         </div>
-        <div class="flex justify-center items-center py-50">
-          <button v-if="decryptedId !== '' && !isOutDate" class="btn  w-1/3 bg-red-800 text-red-50 dark:opacity-75 hover:bg-red-600" @click="handleSubmit">
-            提交问卷
-          </button>
+        <div v-if="showData.surveyType === 1" class="flex flex-col  ">
+          <div v-for="(q, index) in showData.quesConfig.questionList" :key="index">
+            <vote
+              v-model:answer="q.answer"
+              :title="q.subject"
+              :options="q.options"
+              :serial-num="q.serialNum"
+              :unique="q.quesSetting.unique"
+              :required="q.quesSetting.required"
+              :other-option="q.quesSetting.otherOption"
+              :describe="q.describe"
+              :questionnaire-i-d="decryptedId ?? ''"
+              :minimum-option="q.quesSetting.minimumOption"
+              :maximum-option="q.quesSetting.maximumOption"
+              :count="resultData"
+            />
+          </div>
+          <div class="flex justify-center items-center py-30 mx-10">
+            <button v-if="decryptedId !== '' && !isOutDate" class="btn w-full bg-red-800 text-red-50 dark:opacity-75 hover:bg-red-600 rounded-none" @click=" handleSubmit">
+              提交问卷
+            </button>
+          </div>
         </div>
-      </div>
-      <div v-if="showData && showData.surveyType === 1" class="flex flex-col  ">
-        <div v-for="(q, index) in showData.quesConfig.questionList" :key="index">
-          <vote
-            v-model:answer="q.answer"
-            :title="q.subject"
-            :options="q.options"
-            :serial-num="q.serialNum"
-            :unique="q.quesSetting.unique"
-            :required="q.quesSetting.required"
-            :other-option="q.quesSetting.otherOption"
-            :describe="q.describe"
-            :questionnaire-i-d="decryptedId ?? ''"
-            :minimum-option="q.quesSetting.minimumOption"
-            :maximum-option="q.quesSetting.maximumOption"
-            :count="resultData"
-          />
-        </div>
-        <div class="flex justify-center items-center py-30 mx-10">
-          <button v-if="decryptedId !== '' && !isOutDate" class="btn w-full bg-red-800 text-red-50 dark:opacity-75 hover:bg-red-600 rounded-none" @click=" handleSubmit">
-            提交问卷
-          </button>
-        </div>
-      </div>
+      </template>
       <modal
         modal-id="QuestionnaireSubmit"
         white
@@ -310,7 +313,7 @@ const startTime = ref();
 const resultData = ref<StatisticOption[] | undefined>(undefined);
 const route = useRoute();
 const loginStore = useMainStore().useLoginStore();
-const decryptedId = ref<string | null>(null);
+const decryptedId = ref<string>();
 const allowSend = ref(true);
 const isOutDate = ref(false);
 
@@ -381,11 +384,14 @@ const submit = () => {
     onBefore: () => startLoading(),
     async onSuccess(res) {
       if (res.code === 200 && res.msg === "OK") {
+        if (!decryptedId.value) {
+          throw Error("无效的问卷id");
+        }
         const { useImageStore, useOptionStore, useQuetionnaireStore } = useMainStore();
         const questionnaireStore = useQuetionnaireStore();
         ElNotification.success("提交成功");
         questionnaireStore.deleteAnswer(decryptedId.value);
-        useImageStore().clearFiles();
+        useImageStore().clearFileList(decryptedId.value);
         useOptionStore().deleteOption(decryptedId.value);
 
         if (formData.value.surveyType === 0) {
@@ -416,7 +422,7 @@ onMounted(async () => {
   const idParam = route.query.id as string | undefined;
   if (idParam) {
     const raw = idParam.replace(/ /g, "+");
-    decryptedId.value = decryptId(raw) as string | null;
+    decryptedId.value = decryptId(raw);
     if (!decryptedId.value) {
       ElNotification.error("无效的问卷id");
       return;
@@ -483,6 +489,10 @@ const getQuestionnaireView = async () => {
 
 const checkAnswer = () => {
   const hasUnansweredRequiredQuestion = showData.value.quesConfig.questionList.some((q: any) => {
+    if (q.quesSetting.questionType === 5 && q.quesSetting.required && q.answer === "") {
+      ElNotification.error(`第${q.serialNum}题图片上传失败或未完成，请重新上传.`);
+      return true;
+    }
     if (q.quesSetting.required && q.answer === "") {
       ElNotification.error("您有题目未完成作答.");
       return true;
@@ -495,13 +505,16 @@ const checkAnswer = () => {
       ElNotification.error("您有多选题未完成作答.");
       return true;
     }
-    if (q.quesSetting.questionType === 2 && q.answer.split("┋").length > q.quesSetting.maximumOption || q.answer.split("┋").length < q.quesSetting.minimumOption) {
-      if (q.answer.split("┋").length > q.quesSetting.maximumOption) {
-        ElNotification.error(`该投票最多只能选择${q.quesSetting.maximumOption}个选项`);
-      } else if (q.answer.split("┋").length < q.quesSetting.minimumOption) {
-        ElNotification.error(`该投票最少需要选择${q.quesSetting.minimumOption}个选项`);
+    if (q.quesSetting.questionType === 2) {
+      const selectedCount = q.answer.split("┋").length;
+      if (selectedCount > q.quesSetting.maximumOption || selectedCount < q.quesSetting.minimumOption) {
+        if (selectedCount > q.quesSetting.maximumOption) {
+          ElNotification.error(`该投票最多只能选择${q.quesSetting.maximumOption}个选项`);
+        } else if (selectedCount < q.quesSetting.minimumOption) {
+          ElNotification.error(`该投票最少需要选择${q.quesSetting.minimumOption}个选项`);
+        }
+        return true;
       }
-      return true;
     }
 
     if (q.quesSetting.questionType === 3 && q.answer !== "" && q.quesSetting.reg && !new RegExp(q.quesSetting.reg).test(q.answer)) {
@@ -520,9 +533,9 @@ const checkAnswer = () => {
 </script>
 
   <style scoped>
-  pre {
+  :deep(pre) {
     white-space: pre-wrap; /* css-3 */
-    word-wrap: break-word; /* InternetExplorer5.5+ */
+    overflow-wrap: break-word;
     white-space: -moz-pre-wrap; /* Mozilla,since1999 */
     white-space: -o-pre-wrap; /* Opera7 */
   }

@@ -1,18 +1,20 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import type { UploadFile } from "element-plus";
+import { get, set, unset } from "lodash-es";
 
 export const useImageStore = defineStore("image", () => {
-  const fileList = ref<UploadFile[]>([]); // 用于存储上传的文件列表
-
-  const addFile = (file: UploadFile) => {
-    fileList.value.push(file); // 添加文件到列表
+  const fileListMap = ref<Record<string, Record<number, UploadFile[]>>>({}); // 用于存储上传的文件列表
+  const getFileList = (quesId: string, serial_num: number) => {
+    return get(fileListMap.value, [quesId, serial_num], []);
+  };
+  const setFileList = (quesId: string, serial_num: number, fileList: UploadFile[]) => {
+    set(fileListMap.value, [quesId, serial_num], fileList);
+  };
+  const clearFileList = (quesId: string) => {
+    unset(fileListMap.value, [quesId]);
   };
 
-  const clearFiles = () => {
-    fileList.value = []; // 清空文件列表
-  };
-
-  return { fileList, addFile, clearFiles };
+  return { fileListMap, getFileList, setFileList, clearFileList };
 }, { persist: true });
 

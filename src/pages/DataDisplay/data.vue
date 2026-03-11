@@ -137,11 +137,11 @@ const getAnswers = () => {
     debounceWait: 400,
     onSuccess(res) {
       if (res.code === 200) {
-        totalPageNum.value = res.data.totalPageNum;
-        answers.value = res.data.answersData.questionAnswers;
-        time.value = res.data.answersData.time;
-        type.value = res.data.surveyType;
-        answerIds.value = res.data.answersData.answerIds;
+        totalPageNum.value = res.data.total_page_num;
+        answers.value = res.data.answers_data.question_answers;
+        time.value = res.data.answers_data.time;
+        type.value = res.data.survey_type;
+        answerIds.value = res.data.answers_data.answer_ids;
       }
     },
     onError(e) {

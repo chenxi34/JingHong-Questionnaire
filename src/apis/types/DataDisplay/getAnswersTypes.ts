@@ -9,8 +9,8 @@ export interface GetAnswersData {
 }
 
 export interface AnswersData {
-  questionAnswers: QuestionAnswer[];
-  answerIds: string[];
+  question_answers: QuestionAnswer[];
+  answer_ids: string[];
   time: string[];
 }
 
