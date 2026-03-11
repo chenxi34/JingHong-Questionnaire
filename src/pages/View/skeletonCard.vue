@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="flex gap-10 ">
-        <span>唯一</span><input type="checkbox" :name="-1" class="checkbox-sm">
+        <span>唯一</span><input type="checkbox" name="-1" class="checkbox-sm">
       </div>
     </div>
   </div>

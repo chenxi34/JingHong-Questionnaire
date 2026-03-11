@@ -1,13 +1,6 @@
 import { request } from "@/apis/axios";
-import { SetQuestionnaireDetailRequest, SetQuestionnaireDetailResponse } from "@/apis/types/DetaiInfo/setQuestionnaireDetailTypes";
+import type { SetQuestionnaireDetailRequest, SetQuestionnaireDetailResponse } from "@/apis/types/DetailInfo/setQuestionnaireDetailTypes";
 
-// 定义发送问卷详情更新请求的函数
-const setQuestionnaireDetailAPI = (data: SetQuestionnaireDetailRequest):
-Promise<SetQuestionnaireDetailResponse> => {
-  return request("/api/admin/update/questions", {
-    method: "PUT",
-    data: data
-  });
+export const setQuestionnaireDetailAPI = (data: SetQuestionnaireDetailRequest): Promise<SetQuestionnaireDetailResponse> => {
+  return request("/admin/update/questions", { data, method: "PUT" });
 };
-
-export { setQuestionnaireDetailAPI };

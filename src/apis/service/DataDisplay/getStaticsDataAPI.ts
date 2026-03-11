@@ -1,12 +1,6 @@
 import { request } from "@/apis/axios";
-import { GetStaticsDataResponse, GetStaticsDataRequest } from "@/apis/types/DataDisplay/getStaticsDataTypes";
+import type { GetStaticsDataRequest, GetStaticsDataResponse } from "@/apis/types/DataDisplay/getStaticsDataTypes";
 
-const getStaticsDataAPI = (data: GetStaticsDataRequest):
-Promise<GetStaticsDataResponse> => {
-  return request("/api/admin/statics/answers", {
-    params: data,
-    method: "GET"
-  });
+export const getStaticsDataAPI = (params: GetStaticsDataRequest): Promise<GetStaticsDataResponse> => {
+  return request("/admin/statics/answers", { params, method: "GET" });
 };
-
-export { getStaticsDataAPI };

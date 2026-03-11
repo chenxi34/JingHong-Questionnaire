@@ -3,7 +3,7 @@
     <div class="flex justify-between">
       <div class="flex-col">
         <div class="flex items-center gap-20">
-          <span class="lg:text-xl md:text-md">{{ props.serial_num }}</span>
+          <span class="lg:text-xl md:text-md">{{ props.serialNum }}</span>
           <span class="lg:text-xl md:text-md flex gap-5 items-center">{{ props.title }}
             <el-tag type="primary" class="ml-5">多选</el-tag>
             <el-tag v-if="!required" type="warning">选答</el-tag>
@@ -18,12 +18,12 @@
     </div>
     <div class="divider my-5" />
     <div class="flex-col p-5 h-auto">
-      <span v-if="props.minimum_option !== 0" class="dark:opacity-80 text-gray-700 dark:text-gray-400 text-sm my-5">最少选 {{ props.minimum_option }} 个&ensp;</span>
-      <span v-if="props.maximum_option !== 0" class="dark:opacity-80 text-gray-700 dark:text-gray-400 text-sm my-5">最多选 {{ props.maximum_option }} 个</span>
+      <span v-if="props.minimumOption !== 0" class="dark:opacity-80 text-gray-700 dark:text-gray-400 text-sm my-5">最少选 {{ props.minimumOption }} 个&ensp;</span>
+      <span v-if="props.maximumOption !== 0" class="dark:opacity-80 text-gray-700 dark:text-gray-400 text-sm my-5">最多选 {{ props.maximumOption }} 个</span>
       <div v-for="item in localOptions" :key="item.serial_num" class="flex items-center gap-10 my-5">
         <el-checkbox
           v-model="answerArr"
-          :name="props.serial_num"
+          :name="props.serialNum"
           class="my-5"
           style="zoom: 110%; width: 100%"
           :value="item.content"
@@ -46,7 +46,7 @@
           ref="otherCheckbox"
           v-model="otherAnswerChecked"
           :disabled="!otherAnswer || (!otherAnswerChecked && isOptionDisabled)"
-          :name="props.serial_num"
+          :name="props.serialNum"
           class="my-5"
           style="zoom: 110%"
           :value="otherAnswer"
@@ -72,15 +72,15 @@ const optionStore = useMainStore().useOptionStore();
 
 const props = defineProps<{
   questionnaireID: string
-  serial_num: number,
+  serialNum: number,
   title?: string,
   required: boolean,
   unique: boolean,
   otherOption: boolean,
   describe: string,
   answer: string,
-  maximum_option: number,
-  minimum_option: number,
+  maximumOption: number,
+  minimumOption: number,
   options?: {
     content: string;
     img: string;
@@ -91,7 +91,7 @@ const props = defineProps<{
 const localUnique = ref<boolean>(props.unique);
 const localOtherOption = ref<boolean>(props.otherOption);
 const localOptions = ref(props.options ? [...props.options] : []);
-const otherAnswer = ref<string>(optionStore.search(props.questionnaireID, props.serial_num));
+const otherAnswer = ref<string>(optionStore.search(props.questionnaireID, props.serialNum));
 const answerArr = ref<string[]>(props.answer ? props.answer.split("┋") : []);
 // console.log(answerArr)
 const emits = defineEmits(["update:answer"]);
@@ -145,7 +145,7 @@ watch(filteredAnswerArr, () => {
 
 watch(otherAnswer, (newOtherAnswer, oldOtherAnswer) => {
   if (newOtherAnswer) {
-    optionStore.update(props.questionnaireID, props.serial_num, newOtherAnswer);
+    optionStore.update(props.questionnaireID, props.serialNum, newOtherAnswer);
   }
 
   const otherIndex = answerArr.value.indexOf(oldOtherAnswer);
@@ -162,7 +162,7 @@ watch(otherAnswer, (newOtherAnswer, oldOtherAnswer) => {
 
 const isOptionDisabled = computed(() => {
   const totalCount = filteredAnswerArr.value.length;
-  return props.maximum_option !== 0 && totalCount >= props.maximum_option;
+  return props.maximumOption !== 0 && totalCount >= props.maximumOption;
 });
 </script>
 

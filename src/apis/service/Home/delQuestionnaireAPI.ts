@@ -1,12 +1,6 @@
 import { request } from "@/apis/axios";
-import { DelQuestionnaireRequest, DelQuestionnaireResponse } from "@/apis/types/Home/delQuestionnaireTypes";
+import type { DelQuestionnaireRequest, DelQuestionnaireResponse } from "@/apis/types/Home/delQuestionnaireTypes";
 
-const delQuestionnaireAPI = (data: DelQuestionnaireRequest):
-Promise<DelQuestionnaireResponse> => {
-  return request("/api/admin/delete", {
-    params: data,
-    method: "DELETE"
-  });
+export const delQuestionnaireAPI = (params: DelQuestionnaireRequest): Promise<DelQuestionnaireResponse> => {
+  return request("/admin/delete", { params, method: "DELETE" });
 };
-
-export { delQuestionnaireAPI };

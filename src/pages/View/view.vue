@@ -86,7 +86,7 @@
                   v-model:answer="q.answer"
                   :title="q.subject"
                   :options="q.options"
-                  :serial_num="q.serialNum"
+                  :serial-num="q.serialNum"
                   :unique="q.quesSetting.unique"
                   :required="q.quesSetting.required"
                   :other-option="q.quesSetting.otherOption"
@@ -105,14 +105,14 @@
                     v-model:answer="q.answer"
                     :title="q.subject"
                     :options="q.options"
-                    :serial_num="q.serialNum"
+                    :serial-num="q.serialNum"
                     :unique="q.quesSetting.unique"
                     :required="q.quesSetting.required"
                     :other-option="q.quesSetting.otherOption"
                     :describe="q.description"
-                    :questionnaire-i-d="decryptedId as string"
-                    :minimum_option="q.quesSetting.minimumOption"
-                    :maximum_option="q.quesSetting.maximumOption"
+                    :questionnaire-i-d="decryptedId ?? ''"
+                    :minimum-option="q.quesSetting.minimumOption"
+                    :maximum-option="q.quesSetting.maximumOption"
                   />
                 </template>
               </el-skeleton>
@@ -126,7 +126,7 @@
                   <fill
                     v-model:answer="q.answer"
                     :title="q.subject"
-                    :serial_num="q.serialNum"
+                    :serial-num="q.serialNum"
                     :reg="q.quesSetting.reg"
                     :unique="q.quesSetting.unique"
                     :required="q.quesSetting.required"
@@ -144,7 +144,7 @@
                   <text-area
                     v-model:answer="q.answer"
                     :title="q.subject"
-                    :serial_num="q.serialNum"
+                    :serial-num="q.serialNum"
                     :unique="q.quesSetting.unique"
                     :required="q.quesSetting.required"
                     :describe="q.description"
@@ -161,7 +161,7 @@
                   <file
                     v-model:answer="q.answer"
                     :title="q.subject"
-                    :serial_num="q.serialNum"
+                    :serial-num="q.serialNum"
                     :unique="q.quesSetting.unique"
                     :required="q.quesSetting.required"
                     :describe="q.description"
@@ -172,7 +172,7 @@
             </div>
           </div>
           <div class="flex justify-center items-center py-50">
-            <button v-if="decryptedId !== '' && !isOutDate" class="btn  w-1/3 bg-red-800 text-red-50 dark:opacity-75 hover:bg-red-600" @click="handleSubmit">
+            <button v-if="decryptedId && !isOutDate" class="btn  w-1/3 bg-red-800 text-red-50 dark:opacity-75 hover:bg-red-600" @click="handleSubmit">
               提交问卷
             </button>
           </div>
@@ -183,14 +183,14 @@
               v-model:answer="q.answer"
               :title="q.subject"
               :options="q.options"
-              :serial_num="q.serialNum"
+              :serial-num="q.serialNum"
               :unique="q.quesSetting.unique"
               :required="q.quesSetting.required"
               :other-option="q.quesSetting.otherOption"
               :describe="q.describe"
-              :questionnaire-i-d="decryptedId"
-              :minimum_option="q.quesSetting.minimumOption"
-              :maximum_option="q.quesSetting.maximumOption"
+              :questionnaire-i-d="decryptedId ?? ''"
+              :minimum-option="q.quesSetting.minimumOption"
+              :maximum-option="q.quesSetting.maximumOption"
               :count="resultData"
             />
           </div>
@@ -236,7 +236,7 @@
               该问卷仅限校内{{ showData?.baseConfig.undergradOnly ? '本科生':'学生' }}作答,提交前需要先进行<span class="font-bold">统一身份认证</span>
             </div>
             <div class="flex-col gap-10 mt-10">
-              <span class="flex gap-10 text-sm items-center"><span class="w-110 flex justify-end">职工号/学号</span> <el-input v-model="verifyData.stu_id" :disabled="disabledInput" /></span>
+              <span class="flex gap-10 text-sm items-center"><span class="w-110 flex justify-end">职工号/学号</span> <el-input v-model="verifyData.stuId" :disabled="disabledInput" /></span>
               <span class="text-sm flex gap-10 mt-10 items-center"><span class="w-110 flex justify-end">密码 </span><el-input
                 v-model="verifyData.password"
                 :disabled="disabledInput"
@@ -293,17 +293,16 @@ import { useMainStore } from "@/stores";
 // 暗黑模式hook
 import { useDarkModeSwitch } from "@/utilities/darkModeSwitch";
 import Vote from "@/pages/View/vote.vue";
-import { deepSnakeToCamel } from "@/utilities/deepSnakeToCamel.ts";
-import { deepCamelToSnake } from "@/utilities/deepCamelToSnake.ts";
 import { QuesType } from "@/utilities/constMap.ts";
+import type { StatisticOption } from "@/apis/types/User/getStatisticTypes";
 
 const { darkModeStatus, switchDarkMode } = useDarkModeSwitch();
 const KEY = "JingHong";
 const TOKEN_EXPIRATION_MS = 7 * 24 * 60 * 60 * 1000;
 
-const formData = ref();
-const showData = ref();
-const ans = ref({
+const formData = ref<any>();
+const showData = ref<any>();
+const ans = ref<{ id: number; questionsList: { questionId: number; answer: string }[]; token: string }>({
   id: -1,
   questionsList: [],
   token: ""
@@ -311,7 +310,7 @@ const ans = ref({
 const time = ref();
 const loading = ref(true);
 const startTime = ref();
-const resultData = ref(undefined);
+const resultData = ref<StatisticOption[] | undefined>(undefined);
 const route = useRoute();
 const loginStore = useMainStore().useLoginStore();
 const decryptedId = ref<string>();
@@ -319,7 +318,7 @@ const allowSend = ref(true);
 const isOutDate = ref(false);
 
 // 认证相关状态
-const verifyData = ref({ stu_id: "", password: "", id: -1 });
+const verifyData = ref({ stuId: "", password: "", id: -1 });
 const tokenTimestamp = ref<number>(Number(localStorage.getItem("timestamp")) || 0);
 const disabledInput = ref(false);
 
@@ -357,7 +356,8 @@ const verify = () => {
     },
     onError: () => ElNotification.error("请求超时, 请稍后重试"),
     onFinally: () => {
-      disabledInput.value = false; closeLoading();
+      disabledInput.value = false;
+      closeLoading();
     }
   });
 };
@@ -375,12 +375,12 @@ const submit = () => {
   if (!allowSend.value || !ensureAuth()) return;
 
   ans.value.token = localStorage.getItem("token") ?? "";
-  ans.value.questionsList = showData.value.quesConfig.questionList.map((item) => ({
+  ans.value.questionsList = showData.value.quesConfig.questionList.map((item: any) => ({
     questionId: item.id,
     answer: item.answer
   }));
 
-  useRequest(() => setUserSubmitAPI(deepCamelToSnake(ans.value)), {
+  useRequest(() => setUserSubmitAPI(ans.value), {
     onBefore: () => startLoading(),
     async onSuccess(res) {
       if (res.code === 200 && res.msg === "OK") {
@@ -394,12 +394,12 @@ const submit = () => {
         useImageStore().clearFileList(decryptedId.value);
         useOptionStore().deleteOption(decryptedId.value);
 
-        if (formData.value.survey_type === 0) {
+        if (formData.value.surveyType === 0) {
           await router.push("/Thank");
         } else {
           try {
-            const res = await getStatisticAPI({ id: Number(decryptedId.value) });
-            resultData.value = res.data.statistics[0].options;
+            const statRes = await getStatisticAPI({ id: Number(decryptedId.value) });
+            resultData.value = statRes.data?.statistics?.[0]?.options;
           } catch (e) {
             ElNotification.error(e instanceof Error ? e.message : String(e));
           }
@@ -410,7 +410,8 @@ const submit = () => {
     },
     onError: (e) => ElNotification.error(e.message),
     onFinally: () => {
-      showModal("QuestionnaireSubmit", true); closeLoading();
+      showModal("QuestionnaireSubmit", true);
+      closeLoading();
     }
   });
 };
@@ -450,11 +451,11 @@ const getQuestionnaireView = async () => {
     startLoading();
     try {
       const res = await getQuestionnaireAPI({ id: Number(decryptedId.value) });
-      if (res.code === 200) {
+      if (res.code === 200 && res.data) {
         formData.value = res.data;
-        showData.value = deepSnakeToCamel(res.data);
+        showData.value = res.data;
 
-        showData.value.quesConfig.questionList = showData.value.quesConfig.questionList.map(item => ({
+        showData.value.quesConfig.questionList = showData.value.quesConfig.questionList.map((item: any) => ({
           ...item,
           answer: ""
         }));
@@ -462,7 +463,7 @@ const getQuestionnaireView = async () => {
         if (showData.value.surveyType === QuesType.VOTE) {
           try {
             const statRes = await getStatisticAPI({ id: Number(decryptedId.value) });
-            resultData.value = statRes.data.statistics[0].options;
+            resultData.value = statRes.data?.statistics?.[0]?.options;
           } catch (e) {
             ElNotification.error(e instanceof Error ? e.message : String(e));
           }
@@ -487,7 +488,7 @@ const getQuestionnaireView = async () => {
 };
 
 const checkAnswer = () => {
-  const hasUnansweredRequiredQuestion = showData.value.quesConfig.questionList.some((q) => {
+  const hasUnansweredRequiredQuestion = showData.value.quesConfig.questionList.some((q: any) => {
     if (q.quesSetting.questionType === 5 && q.quesSetting.required && q.answer === "") {
       ElNotification.error(`第${q.serialNum}题图片上传失败或未完成，请重新上传.`);
       return true;

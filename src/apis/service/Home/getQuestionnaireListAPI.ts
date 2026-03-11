@@ -1,12 +1,6 @@
 import { request } from "@/apis/axios";
-import { GetQuestionnaireListResponse, GetQuestionnaireListResquest } from "@/apis/types/Home/getQuestionnaireListTypes";
+import type { GetQuestionnaireListRequest, GetQuestionnaireListResponse } from "@/apis/types/Home/getQuestionnaireListTypes";
 
-const getQuestionnaireListAPI = (data: GetQuestionnaireListResquest):
-Promise<GetQuestionnaireListResponse> => {
-  return request("/api/admin/list/questions", {
-    params: data,
-    method: "GET"
-  });
+export const getQuestionnaireListAPI = (params: GetQuestionnaireListRequest): Promise<GetQuestionnaireListResponse> => {
+  return request("/admin/list/questions", { params, method: "GET" });
 };
-
-export { getQuestionnaireListAPI };

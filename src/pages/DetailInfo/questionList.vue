@@ -44,8 +44,8 @@
                     v-model:option-choose="q.quesSetting.required"
                     v-model:other-option="q.quesSetting.otherOption"
                     v-model:describe="q.description"
-                    v-model:maximum_option="q.quesSetting.maximumOption"
-                    v-model:minimum_option="q.quesSetting.minimumOption"
+                    v-model:maximum-option="q.quesSetting.maximumOption"
+                    v-model:minimum-option="q.quesSetting.minimumOption"
                     :is-active="q.serialNum === activeSerial"
                     @on-click="deleteQuestion(q.serialNum)"
                   />
@@ -208,7 +208,6 @@ import {
 } from "@/apis";
 import { createQuestionnaireDetailAPI } from "@/apis";
 import { closeLoading, startLoading } from "@/utilities";
-import { deepCamelToSnake } from "@/utilities/deepCamelToSnake.ts";
 
 const loading = ref(true);
 
@@ -299,7 +298,7 @@ const { run: runUpdateStatus } = useRequest(updateQuestionnaireStatusAPI, {
   },
   onError: (e) => ElNotification.error(e),
   onFinally: () => {
-    showModal("NewQuestionnaireSubmit", true); // 关闭发布弹窗
+    showModal("NewQuestionnaireSubmit", true);
     closeLoading();
   }
 });
@@ -319,16 +318,15 @@ const publishQues = async () => {
   if (isNew.value) {
     // 新建 -> 创建并发布
     schema.value.status = 2;
-    runCreate(deepCamelToSnake(schema.value));
+    runCreate(schema.value);
   } else {
     // 已有 -> 先保存内容，再更新状态
     startLoading();
     try {
-      const data = deepCamelToSnake(schema.value);
-      data.id = surveyId.value; // 确保 ID 存在
+      const data = { ...schema.value, id: surveyId.value };
 
       // 1. 更新内容
-      const contentRes = await setQuestionnaireDetailAPI(data) as any;
+      const contentRes = await setQuestionnaireDetailAPI(data);
       if (contentRes.code !== 200) {
         throw new Error(contentRes.msg || "保存内容失败");
       }
@@ -344,16 +342,15 @@ const publishQues = async () => {
 
 /** 保存问卷 */
 const saveQues = () => {
-  // 新建场景的“保存”为创建草稿
+  // 新建场景的"保存"为创建草稿
   if (isNew.value) {
     schema.value.status = 1;
-    runCreate(deepCamelToSnake(schema.value));
+    runCreate(schema.value);
     return;
   }
 
   // 编辑场景才走更新
-  const data = deepCamelToSnake(schema.value);
-  data.id = surveyId.value;
+  const data = { ...schema.value, id: surveyId.value };
   runUpdateContent(data);
 };
 </script>

@@ -1,13 +1,11 @@
-export interface GetAnswersResponse {
-  code: number;
-  data: Data;
-  msg: string;
-}
+import type { ApiResponse } from "../common";
 
-export interface Data {
-  answers_data: AnswersData;
-  survey_type: number;
-  total_page_num: number;
+export type GetAnswersResponse = ApiResponse<GetAnswersData>;
+
+export interface GetAnswersData {
+  answersData: AnswersData;
+  surveyType: number;
+  totalPageNum: number;
 }
 
 export interface AnswersData {
@@ -19,14 +17,15 @@ export interface AnswersData {
 export interface QuestionAnswer {
   answers?: string[];
   /** 1单选2多选3填空4简答5图片 */
-  question_type: number;
+  questionType: number;
   title?: string;
 }
+
 export interface GetAnswersRequest {
   /** 问卷编号 */
   id: number;
-  page_num: number;
-  page_size: number;
+  pageNum: number;
+  pageSize: number;
   /** 查询内容 */
   text?: string;
   /** 是否只显示最新的填写记录 */

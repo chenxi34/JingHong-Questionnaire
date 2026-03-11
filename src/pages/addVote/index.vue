@@ -32,7 +32,6 @@ import Vote from "./vote.vue";
 import { useEditVoteStore } from "@/stores/voteEdit.ts";
 import { useRequest } from "vue-hooks-plus";
 import { createQuestionnaireDetailAPI, setQuestionnaireDetailAPI } from "@/apis";
-import { deepCamelToSnake } from "@/utilities/deepCamelToSnake.ts";
 import { closeLoading, startLoading } from "@/utilities";
 import { ElNotification } from "element-plus";
 import router from "@/router";
@@ -43,7 +42,7 @@ const { resetSchema, voteId } = useEditVoteStore();
 const { schema } = storeToRefs(useEditVoteStore());
 const state = ref("edit");
 const saveEdit = () => {
-  useRequest(() => setQuestionnaireDetailAPI(deepCamelToSnake(schema.value)), {
+  useRequest(() => setQuestionnaireDetailAPI(schema.value), {
     onBefore: () => startLoading(),
     onSuccess(res) {
       if (res.code === 200 && res.msg === "OK") {
@@ -60,7 +59,7 @@ const saveEdit = () => {
 };
 const submit = (state: number) => {
   schema.value.status = state;
-  useRequest(() => createQuestionnaireDetailAPI(deepCamelToSnake(schema.value)), {
+  useRequest(() => createQuestionnaireDetailAPI(schema.value), {
     onBefore: () => startLoading(),
     onSuccess(res) {
       if (res.code === 200 && res.msg === "OK") {

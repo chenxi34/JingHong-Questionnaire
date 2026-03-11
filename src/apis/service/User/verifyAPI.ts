@@ -1,12 +1,6 @@
 import { request } from "@/apis/axios";
-import { VerifyRequest, VerifyResponse } from "@/apis/types/User/verifyTypes";
+import type { VerifyRequest, VerifyResponse } from "@/apis/types/User/verifyTypes";
 
-const verifyAPI = (data: VerifyRequest):
-Promise<VerifyResponse> => {
-  return request("/api/user/oauth", {
-    method: "POST",
-    data: data
-  });
+export const verifyAPI = (data: VerifyRequest): Promise<VerifyResponse> => {
+  return request("/user/oauth", { data, method: "POST" });
 };
-
-export { verifyAPI };

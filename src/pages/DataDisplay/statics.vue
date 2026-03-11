@@ -3,7 +3,7 @@
     <div class=" gap-8 m-5 grid grid-cols-2 mt-30">
       <n-card v-for="obj in staticsData" :key="obj" class="dark:bg-customGray_shallow">
         <div class="font-bold dark:text-white">
-          {{ obj.serial_num }}. {{ obj.question }}
+          {{ obj.serialNum }}. {{ obj.question }}
         </div>
         <div v-for="opt in obj.options" :key="opt.content" class="m-6">
           <div class="relative border rounded">
@@ -46,8 +46,8 @@ const handleCurrentChange = (val: number) => {
 const getAnswers = () => {
   useRequest(() => getStaticsDataAPI({
     id: tempStore.checkId,
-    page_num: pageNum.value,
-    page_size: pageSize
+    pageNum: pageNum.value,
+    pageSize: pageSize
   }), {
     onSuccess(res) {
       if (res.code !== 200) {
@@ -55,7 +55,7 @@ const getAnswers = () => {
       }
       staticsData.value = res.data.statistics;
       totalNum.value = res.data.total;
-      totalPageNum.value = res.data.total_sum_page;
+      totalPageNum.value = res.data.totalSumPage;
     },
     onError(e) {
       ElNotification.error("获取失败，请重试" + e);

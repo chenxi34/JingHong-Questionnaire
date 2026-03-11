@@ -1,39 +1,37 @@
+import type { ApiResponse } from "../common";
+
 export interface GetStaticsDataRequest {
   id?: number;
-  page_num: number;
-  page_size: number;
+  pageNum: number;
+  pageSize: number;
 }
 
-export interface GetStaticsDataResponse {
-  code: number;
-  data: Data;
-  msg: string;
-}
+export type GetStaticsDataResponse = ApiResponse<GetStaticsDataData>;
 
-export interface Data {
+export interface GetStaticsDataData {
   statistics: Statistic[];
-  survey_type: number;
+  surveyType: number;
   /** 总数 */
   total: number;
   /** 总页数 */
-  total_sum_page: number;
+  totalSumPage: number;
 }
 
 export interface Statistic {
-  options: Option[];
+  options: StatisticOption[];
   /** 题目标题 */
   question: string;
   /** 题目类型，1单选2多选 */
-  question_type: number;
+  questionType: number;
   /** 题目序号 */
-  serial_num: number;
+  serialNum: number;
 }
 
-export interface Option {
+export interface StatisticOption {
   /** 选项内容 */
   content: string;
   /** 选人数 */
   count: number;
   /** 选项序号 */
-  serial_num: number;
+  serialNum: number;
 }
