@@ -5,7 +5,7 @@ export function useDarkModeSwitch() {
   const darkModeStore = useMainStore().useDarkModeStore();
 
   // 启动时根据持久化状态同步一次 DOM
-  onBeforeMount(() => darkModeStore.setStatus(darkModeStore.status));
+  onBeforeMount(() => darkModeStore.syncDOM());
 
   const darkModeStatus = computed({
     get: () => darkModeStore.status,
