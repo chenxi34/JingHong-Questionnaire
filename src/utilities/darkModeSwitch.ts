@@ -1,18 +1,30 @@
-import { computed, onBeforeMount } from "vue";
-import { useMainStore } from "@/stores";
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
+import useDarkModeStore from "@/stores/service/darkStore";
+
+const syncDOM = (enabled: boolean) => {
+  document.documentElement.classList.toggle("dark", enabled);
+};
+
+export const initDarkMode = () => {
+  const { status } = storeToRefs(useDarkModeStore());
+  syncDOM(status.value);
+};
 
 export function useDarkModeSwitch() {
-  const darkModeStore = useMainStore().useDarkModeStore();
+  const { status } = storeToRefs(useDarkModeStore());
 
-  // 启动时根据持久化状态同步一次 DOM
-  onBeforeMount(() => darkModeStore.syncDOM());
+  const setStatus = (val: boolean) => {
+    status.value = val;
+    syncDOM(val);
+  };
 
   const darkModeStatus = computed({
-    get: () => darkModeStore.status,
-    set: (val: boolean) => darkModeStore.setStatus(val)
+    get: () => status.value,
+    set: (val: boolean) => setStatus(val)
   });
 
-  const switchDarkMode = () => darkModeStore.toggle();
+  const switchDarkMode = () => setStatus(!status.value);
 
   return { darkModeStatus, switchDarkMode };
 }
